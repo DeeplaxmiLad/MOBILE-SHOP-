@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateMobileEntityTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateMobileEntityLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{mobileEntityController.selected.id}" title="#{bundle.CreateMobileEntityTitle_id}" />
+                    <h:outputLabel value="#{bundle.CreateMobileEntityLabel_name}" for="name" />
+                    <h:inputText id="name" value="#{mobileEntityController.selected.name}" title="#{bundle.CreateMobileEntityTitle_name}" />
+                    <h:outputLabel value="#{bundle.CreateMobileEntityLabel_company}" for="company" />
+                    <h:inputText id="company" value="#{mobileEntityController.selected.company}" title="#{bundle.CreateMobileEntityTitle_company}" />
+                    <h:outputLabel value="#{bundle.CreateMobileEntityLabel_colour}" for="colour" />
+                    <h:inputText id="colour" value="#{mobileEntityController.selected.colour}" title="#{bundle.CreateMobileEntityTitle_colour}" />
+                    <h:outputLabel value="#{bundle.CreateMobileEntityLabel_price}" for="price" />
+                    <h:inputText id="price" value="#{mobileEntityController.selected.price}" title="#{bundle.CreateMobileEntityTitle_price}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{mobileEntityController.create}" value="#{bundle.CreateMobileEntitySaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{mobileEntityController.prepareList}" value="#{bundle.CreateMobileEntityShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateMobileEntityIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMobileEntityTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListMobileEntityEmpty}" rendered="#{mobileEntityController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{mobileEntityController.items.rowCount > 0}">
+                    <h:outputText value="#{mobileEntityController.pagination.pageFirstItem + 1}..#{mobileEntityController.pagination.pageLastItem + 1}/#{mobileEntityController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{mobileEntityController.previous}" value="#{bundle.Previous} #{mobileEntityController.pagination.pageSize}" rendered="#{mobileEntityController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{mobileEntityController.next}" value="#{bundle.Next} #{mobileEntityController.pagination.pageSize}" rendered="#{mobileEntityController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{mobileEntityController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMobileEntityTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMobileEntityTitle_name}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMobileEntityTitle_company}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.company}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMobileEntityTitle_colour}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.colour}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListMobileEntityTitle_price}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{mobileEntityController.prepareView}" value="#{bundle.ListMobileEntityViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{mobileEntityController.prepareEdit}" value="#{bundle.ListMobileEntityEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{mobileEntityController.destroy}" value="#{bundle.ListMobileEntityDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{mobileEntityController.prepareCreate}" value="#{bundle.ListMobileEntityCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListMobileEntityIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

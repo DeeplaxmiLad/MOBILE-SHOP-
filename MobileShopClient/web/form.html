@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Shop - Add/Update Mobile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #eef2f3;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 0 auto;
+        }
+        form input, form button {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        form input:focus {
+            border-color: blueviolet;
+            outline: none;
+        }
+        form button {
+            background-color: blueviolet;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        form button:hover {
+            background-color: blue;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        a {
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: blueviolet;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Mobile Shop</h1>
+        <form id="mobileForm">
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="company" placeholder="Company" required>
+            <input type="text" id="colour" placeholder="Colour" required>
+            <input type="number" id="price" placeholder="Price" required>
+            <input type="hidden" id="id">
+            <button type="button" onclick="updateMobile()" style="display:none;" id="updateBtn">Update Mobile</button>
+        </form>
+        <a href="index.html">Back to Mobile List</a>
+    </div>
+
+    <script>
+        function addMobile() {
+            let mobile = getMobileData();
+            let req = new XMLHttpRequest();
+            req.open("POST", "http://localhost:8080/MobileShop/webresources/com.abc.mobileentity", true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.onload = function () {
+                if (req.status === 201) alert('Mobile added successfully');
+                window.location.href = "index.html";
+            };
+            req.send(JSON.stringify(mobile));
+        }
+
+        function updateMobile() {
+            let id = document.getElementById("id").value;
+            let mobile = getMobileData();
+            let req = new XMLHttpRequest();
+            req.open("PUT", "http://localhost:8080/MobileShop/webresources/com.abc.mobileentity/" + id, true);
+            req.setRequestHeader("Content-Type", "application/json");
+            req.onload = function () {
+                if (req.status === 200) alert('Mobile updated successfully');
+                window.location.href = "index.html";
+            };
+            req.send(JSON.stringify(mobile));
+        }
+
+        function loadMobileData(id) {
+            let req = new XMLHttpRequest();
+            req.open("GET", "http://localhost:8080/MobileShop/webresources/com.abc.mobileentity/" + id, true);
+            req.onload = function () {
+                if (req.status === 200) {
+                    let mobile = JSON.parse(this.response);
+                    document.getElementById("name").value = mobile.name;
+                    document.getElementById("company").value = mobile.company;
+                    document.getElementById("colour").value = mobile.colour;
+                    document.getElementById("price").value = mobile.price;
+                    document.getElementById("id").value = mobile.id;
+                    document.getElementById("updateBtn").style.display = 'block';
+                }
+            };
+            req.send();
+        }
+
+        function getMobileData() {
+            return {
+                name: document.getElementById("name").value,
+                company: document.getElementById("company").value,
+                colour: document.getElementById("colour").value,
+                price: document.getElementById("price").value
+            };
+        }
+
+        let params = new URLSearchParams(window.location.search);
+        if (params.has('id')) loadMobileData(params.get('id'));
+    </script>
+</body>
+</html>
